@@ -35,10 +35,24 @@ jobs:
           cache: 'npm'
 
       - name: Install dependencies
-        # Lockfile is generated locally with --include=optional so every
-        # platform's native binaries are recorded; npm ci then reproduces
-        # the exact tree the developer saw.
-        run: npm ci --no-audit --no-fund
+        # Uses npm install (not npm ci) on purpose.
+        #
+        # This site is developed on Windows; Astro and Tailwind both pull in
+        # image/CSS native bindings that are OS-specific (rolldown, lightningcss,
+        # @tailwindcss/oxide, @napi-rs/*). When the lockfile is generated on
+        # Windows, the win32-x64 binding SHAs are recorded and the linux-x64
+        # binding is only listed as an optional peer with no version pinned —
+        # npm ci on Ubuntu then refuses the tree because a required binding
+        # is "missing from lock". Regenerating the lockfile inside a linux
+        # container was attempted and left ANOTHER cross-platform gap
+        # (dev on Windows would then fail the same way).
+        #
+        # For a static site with 4 top-level deps (astro, tailwindcss,
+        # @astrojs/sitemap, @tailwindcss/vite) the reproducibility trade-off
+        # is acceptable: everything is well-known OSS and Cloudflare fronts
+        # the origin. Revisit if the dep tree grows or the site starts
+        # handling anything sensitive.
+        run: npm install --no-audit --no-fund
 
       - name: Build
         run: npm run build

@@ -1,0 +1,222 @@
+---
+/*
+ * Faithful browser recreation of Plith's OsdContent.xaml + MediaCard.xaml.
+ * Dimensions, corner radii, typography, colours mirror the WPF source
+ * one-to-one so the demo reads as the real app, not a stylised mock.
+ */
+
+export interface Props {
+  id: string;
+}
+
+const { id } = Astro.props;
+---
+
+<div class="osd-wrap">
+  <div class="osd" id={id} role="status" aria-live="polite">
+    <!-- Media row -->
+    <div class="osd-media" data-role="media">
+      <div class="osd-art" aria-hidden="true">
+        <!-- Segoe MDL2 Music note fallback as inline SVG -->
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="h-4 w-4">
+          <path d="M9 18V5l12-2v11.55A3.5 3.5 0 1 1 19 12V6l-8 1.33V19.5A3.5 3.5 0 1 1 9 18z" />
+        </svg>
+      </div>
+      <div class="osd-track">
+        <div class="osd-title"  data-role="title">Take Your Time</div>
+        <div class="osd-artist" data-role="artist">Anderson .Paak</div>
+      </div>
+      <div class="osd-transport">
+        <button class="osd-btn"          data-action="prev"      aria-label="Previous">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="h-3 w-3"><path d="M6 6h2v12H6zM20 6v12l-10-6z"/></svg>
+        </button>
+        <button class="osd-btn primary"  data-action="playpause" aria-label="Play / Pause">
+          <svg data-role="play-icon"  xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="h-3.5 w-3.5 hidden"><path d="M7 5l12 7-12 7z"/></svg>
+          <svg data-role="pause-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="h-3.5 w-3.5"><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg>
+        </button>
+        <button class="osd-btn"          data-action="next"      aria-label="Next">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="h-3 w-3"><path d="M4 6l10 6-10 6zM16 6h2v12h-2z"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Divider -->
+    <div class="osd-divider" data-role="divider"></div>
+
+    <!-- Volume row -->
+    <div class="osd-volume">
+      <div class="osd-vol-header">
+        <span class="osd-vol-label" data-role="vol-label">BUS A1</span>
+        <span class="osd-vol-value" data-role="vol-value">62%</span>
+      </div>
+      <div class="osd-vol-track">
+        <div class="osd-vol-fill" data-role="vol-fill" style="width: 62%"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  /*
+   * OSD reproduction. All values sourced from OsdContent.xaml / MediaCard.xaml /
+   * OsdPalette.Dark.xaml. Do not tweak in isolation — keep in sync with source.
+   */
+  .osd-wrap { display: flex; justify-content: center; }
+
+  .osd {
+    /* OsdContent.xaml Width="440", CornerRadius="14", Padding="20,16" */
+    width: 440px;
+    max-width: 100%;
+    padding: 16px 20px;
+    border-radius: 14px;
+    background: linear-gradient(to bottom, #181818f0, #111111f0);
+    border: 1px solid var(--osd-border);
+    /* DropShadowEffect BlurRadius="28" Opacity="0.55" Color="Black" */
+    box-shadow: 0 0 28px rgba(0, 0, 0, 0.55);
+    color: var(--osd-text-1);
+    font-family: "Segoe UI Variable", "Segoe UI", "Inter", ui-sans-serif, system-ui, sans-serif;
+    animation: osd-in 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  @keyframes osd-in {
+    from { opacity: 0; transform: translateY(8px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Media row — grid mirrors MediaCard.xaml ColumnDefinitions */
+  .osd-media {
+    display: grid;
+    grid-template-columns: 44px 14px 1fr 10px auto;
+    align-items: center;
+  }
+
+  .osd-art {
+    /* MediaCard: Width/Height 44, CornerRadius 8, Background #22FFFFFF, dropshadow */
+    grid-column: 1;
+    width: 44px;
+    height: 44px;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.13);
+    display: grid;
+    place-items: center;
+    color: var(--osd-text-3);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.35);
+  }
+
+  .osd-track {
+    grid-column: 3;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+  }
+
+  .osd-title {
+    /* OsdTrackNameStyle: FontSize 13, SemiBold, TextPrimary */
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--osd-text-1);
+    line-height: 1.25;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .osd-artist {
+    /* OsdTrackArtistStyle: FontSize 11, TextSecondary, Margin 0,3 */
+    font-size: 11px;
+    color: var(--osd-text-2);
+    line-height: 1.3;
+    margin-top: 3px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .osd-transport {
+    grid-column: 5;
+    display: flex;
+    align-items: center;
+    gap: 0;
+  }
+
+  /* Transport buttons — MediaButtonStyle 32x32 CornerRadius 16, PlayPause 34x34 CornerRadius 17 */
+  .osd-btn {
+    display: grid;
+    place-items: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 16px;
+    background: transparent;
+    border: none;
+    color: var(--osd-text-1);
+    cursor: pointer;
+    transition: background 0.1s ease;
+  }
+  .osd-btn:hover  { background: var(--osd-highlight); }
+  .osd-btn:active { background: rgba(255, 255, 255, 0.2); }
+
+  .osd-btn.primary {
+    width: 34px;
+    height: 34px;
+    border-radius: 17px;
+    background: rgba(255, 255, 255, 0.14);
+    margin: 0 2px;
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.04);
+  }
+  .osd-btn.primary:hover  { background: rgba(255, 255, 255, 0.2); }
+  .osd-btn.primary:active { background: rgba(255, 255, 255, 0.26); }
+
+  /* Divider — 1px, Margin 0,14,0,14 */
+  .osd-divider {
+    height: 1px;
+    margin: 14px 0;
+    background: var(--osd-divider);
+  }
+
+  /* Volume row */
+  .osd-volume { display: flex; flex-direction: column; gap: 10px; }
+
+  .osd-vol-header {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 12px;
+  }
+
+  .osd-vol-label {
+    /* OsdLabelStyle: FontSize 11, SemiBold, tertiary, AllSmallCaps */
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--osd-text-3);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+
+  .osd-vol-value {
+    /* OsdValueStyle: FontSize 20, SemiBold, primary, tabular numerals */
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--osd-text-1);
+    font-variant-numeric: tabular-nums;
+    letter-spacing: -0.01em;
+    line-height: 1;
+  }
+
+  /* Volume bar — Height 6, CornerRadius 3, track OsdTrackBg #22FFFFFF */
+  .osd-vol-track {
+    height: 6px;
+    background: var(--osd-track);
+    border-radius: 3px;
+    overflow: hidden;
+  }
+
+  .osd-vol-fill {
+    height: 100%;
+    border-radius: 3px;
+    background: var(--color-accent);
+    box-shadow: 0 0 8px rgba(74, 214, 149, 0.55);
+    transition: width 0.18s cubic-bezier(0.4, 0, 0.2, 1),
+                background 0.2s ease,
+                box-shadow 0.2s ease;
+  }
+</style>

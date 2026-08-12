@@ -1,0 +1,10 @@
+node_modules/
+dist/
+.astro/
+build/
+coverage/
+.git/
+.env*
+.vscode/
+.idea/
+*.log

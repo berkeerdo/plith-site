@@ -1,0 +1,64 @@
+---
+const faqs = [
+  {
+    q: "Why does Windows show a SmartScreen warning when I run the installer?",
+    a: "Plith is signed with a self-signed certificate, not a public certificate authority. Windows treats unknown signers as unrecognized. Click More info → Run anyway to continue. The wizard handles cert trust automatically after that.",
+  },
+  {
+    q: "Do I need Voicemeeter to use Plith?",
+    a: "No. When Voicemeeter isn't running, Plith listens to the Windows default audio endpoint via NAudio. Voicemeeter integration is a first-class path when the engine is present but never required.",
+  },
+  {
+    q: "Does Plith work over fullscreen games?",
+    a: "Yes. After install to Program Files, Plith earns Windows UIAccess via the self-signed cert and uses CreateWindowInBand to draw above exclusive fullscreen games. The same technique used by MSI Afterburner and RTSS.",
+  },
+  {
+    q: "Is Plith safe to run alongside anti-cheat?",
+    a: "Plith is a passive overlay — it reads no game memory, injects no input, and uses only documented Windows APIs. However, some competitive anti-cheats (Vanguard, EAC) may flag any UIAccess overlay. If you play ranked matches in such games, exit Plith from the tray icon beforehand.",
+  },
+  {
+    q: "Which multi-channel mixers does the endpoint-pin feature support?",
+    a: "Any Windows render endpoint — SteelSeries Sonar (Chat / Game / Media), Rode Unify submixes, Elgato Wave Link inputs, VB-Cable lines, plain USB audio devices. If it shows up in the Windows Sound panel, Plith can pin it.",
+  },
+  {
+    q: "Where does Plith store its configuration?",
+    a: "%LOCALAPPDATA%\\Plith\\config.ini — a plain INI file written with InvariantCulture, so the same file works across machine locales. Delete it to reset to defaults.",
+  },
+  {
+    q: "Is Plith on the Microsoft Store?",
+    a: "Not yet. Microsoft Store requires a publicly-CA-signed installer or an MSIX package. MSIX would break Game mode (UIAccess isn't supported in packaged apps), so we're pursuing a public CA cert via SignPath's OSS program. Follow releases for progress.",
+  },
+  {
+    q: "How do I uninstall?",
+    a: "Settings → Apps → Installed apps → Plith → Uninstall. Or double-click Plith-Uninstaller.exe in C:\\Program Files\\Plith\\Setup\\. The wizard removes the install directory, Start menu shortcut, and Add/Remove Programs entry.",
+  },
+];
+---
+
+<section id="faq" class="border-t border-neutral-900 py-24 sm:py-32">
+  <div class="container-narrow">
+    <div class="mx-auto max-w-2xl text-center">
+      <h2 class="font-display text-3xl font-bold sm:text-4xl">Frequently asked</h2>
+      <p class="mt-4 text-neutral-400">
+        Common questions from Windows power users, streamers, and gamers.
+      </p>
+    </div>
+
+    <div class="mx-auto mt-14 max-w-3xl divide-y divide-neutral-800 rounded-2xl border border-neutral-800 bg-neutral-900/40">
+      {
+        faqs.map((f) => (
+          <details class="group px-6 py-5">
+            <summary class="flex cursor-pointer items-center justify-between gap-4 text-left font-display font-semibold text-white">
+              {f.q}
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4 shrink-0 text-neutral-500 transition-transform group-open:rotate-45">
+                <line x1="12" y1="5" x2="12" y2="19" />
+                <line x1="5" y1="12" x2="19" y2="12" />
+              </svg>
+            </summary>
+            <p class="mt-3 text-sm leading-relaxed text-neutral-400">{f.a}</p>
+          </details>
+        ))
+      }
+    </div>
+  </div>
+</section>

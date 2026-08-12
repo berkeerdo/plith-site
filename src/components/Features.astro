@@ -1,0 +1,126 @@
+---
+const features = [
+  {
+    title: "Voicemeeter-first",
+    body:
+      "Polls VoicemeeterRemote64.dll directly. Reads Bus A1 by default, any bus 0–31 by config. Detects when the engine starts or stops without a restart.",
+    icon: "chip",
+  },
+  {
+    title: "Windows Core Audio fallback",
+    body:
+      "When Voicemeeter isn't running, Plith listens to the default render endpoint via NAudio. Plug in headphones and it reattaches transparently.",
+    icon: "speaker",
+  },
+  {
+    title: "Mixer-agnostic endpoint pinning",
+    body:
+      "Pin any Windows render endpoint as the OSD source. Surface a single SteelSeries Sonar channel, a Rode Unify submix, an Elgato Wave Link input, or VB-Cable.",
+    icon: "pin",
+  },
+  {
+    title: "Media (SMTC) integration",
+    body:
+      "Album art, title, artist, and play / pause / next / previous — for Spotify, YouTube in any Chromium browser, Twitch web, and any SMTC-publishing app.",
+    icon: "music",
+  },
+  {
+    title: "Game mode over fullscreen",
+    body:
+      "UIAccess-signed BandWindow draws the OSD above exclusive fullscreen games too, not just borderless. Passive overlay — no game memory read, no input injection.",
+    icon: "gamepad",
+  },
+  {
+    title: "Free-form summon hotkey",
+    body:
+      "Capture any Ctrl/Alt/Shift combo to pop the OSD on demand. Useful for one-handed media skips without touching the volume wheel first.",
+    icon: "keyboard",
+  },
+];
+---
+
+<section id="features" class="border-t border-neutral-900 py-24 sm:py-32">
+  <div class="container-narrow">
+    <div class="mx-auto max-w-2xl text-center">
+      <h2 class="font-display text-3xl font-bold sm:text-4xl">
+        Built for the way modern Windows sounds
+      </h2>
+      <p class="mt-4 text-neutral-400">
+        Voicemeeter, multi-channel virtual mixers, exclusive-fullscreen games,
+        SMTC media sessions — all first-class, none tacked on.
+      </p>
+    </div>
+
+    <div class="mt-14 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      {
+        features.map((f) => (
+          <div class="group rounded-2xl border border-neutral-800 bg-neutral-900/40 p-6 transition-colors hover:border-neutral-700">
+            <div
+              class="grid h-10 w-10 place-items-center rounded-lg text-lime-500"
+              style="background: rgba(202,255,51,0.1); color: var(--color-lime-500)"
+            >
+              {f.icon === "chip" && (
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-5 w-5">
+                  <rect x="4" y="4" width="16" height="16" rx="2" />
+                  <rect x="9" y="9" width="6" height="6" />
+                  <line x1="9" y1="1" x2="9" y2="4" />
+                  <line x1="15" y1="1" x2="15" y2="4" />
+                  <line x1="9" y1="20" x2="9" y2="23" />
+                  <line x1="15" y1="20" x2="15" y2="23" />
+                  <line x1="20" y1="9" x2="23" y2="9" />
+                  <line x1="20" y1="14" x2="23" y2="14" />
+                  <line x1="1" y1="9" x2="4" y2="9" />
+                  <line x1="1" y1="14" x2="4" y2="14" />
+                </svg>
+              )}
+              {f.icon === "speaker" && (
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-5 w-5">
+                  <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" />
+                  <path d="M15.54 8.46a5 5 0 0 1 0 7.07" />
+                  <path d="M19.07 4.93a10 10 0 0 1 0 14.14" />
+                </svg>
+              )}
+              {f.icon === "pin" && (
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-5 w-5">
+                  <line x1="12" y1="17" x2="12" y2="22" />
+                  <path d="M5 17h14v-1.76a2 2 0 0 0-1.11-1.79l-1.78-.9A2 2 0 0 1 15 10.76V6h1a2 2 0 0 0 0-4H8a2 2 0 0 0 0 4h1v4.76a2 2 0 0 1-1.11 1.79l-1.78.9A2 2 0 0 0 5 15.24V17z" />
+                </svg>
+              )}
+              {f.icon === "music" && (
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-5 w-5">
+                  <path d="M9 18V5l12-2v13" />
+                  <circle cx="6" cy="18" r="3" />
+                  <circle cx="18" cy="16" r="3" />
+                </svg>
+              )}
+              {f.icon === "gamepad" && (
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-5 w-5">
+                  <line x1="6" y1="12" x2="10" y2="12" />
+                  <line x1="8" y1="10" x2="8" y2="14" />
+                  <line x1="15" y1="13" x2="15.01" y2="13" />
+                  <line x1="18" y1="11" x2="18.01" y2="11" />
+                  <rect x="2" y="6" width="20" height="12" rx="2" />
+                </svg>
+              )}
+              {f.icon === "keyboard" && (
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-5 w-5">
+                  <rect x="2" y="4" width="20" height="16" rx="2" />
+                  <path d="M6 8h.001" />
+                  <path d="M10 8h.001" />
+                  <path d="M14 8h.001" />
+                  <path d="M18 8h.001" />
+                  <path d="M8 12h.001" />
+                  <path d="M12 12h.001" />
+                  <path d="M16 12h.001" />
+                  <path d="M7 16h10" />
+                </svg>
+              )}
+            </div>
+            <h3 class="mt-4 font-display text-lg font-semibold">{f.title}</h3>
+            <p class="mt-2 text-sm leading-relaxed text-neutral-400">{f.body}</p>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</section>

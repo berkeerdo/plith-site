@@ -1,0 +1,243 @@
+---
+import InteractiveOSD from "./InteractiveOSD.astro";
+---
+
+<section class="relative overflow-hidden pt-20 pb-32 sm:pt-28 sm:pb-40">
+  <!-- Ambient background -->
+  <div class="pointer-events-none absolute inset-0 -z-10">
+    <div
+      class="absolute inset-x-0 top-0 h-[900px] opacity-60"
+      style="background: radial-gradient(50% 50% at 50% 0%, rgba(74,214,149,0.14), transparent 70%)"
+    ></div>
+    <div
+      class="absolute -top-40 left-1/3 h-[500px] w-[500px] rounded-full opacity-30 blur-3xl animate-pulse-slow"
+      style="background: radial-gradient(circle, rgba(74,214,149,0.25), transparent 70%)"
+    ></div>
+    <div class="absolute inset-0 opacity-[0.03]" style="background-image: radial-gradient(circle at 1px 1px, white 1px, transparent 0); background-size: 32px 32px;"></div>
+  </div>
+
+  <div class="container-narrow">
+    <div class="mx-auto max-w-3xl text-center">
+      <span class="inline-flex items-center gap-2 rounded-full border px-3 py-1 text-xs font-medium" style="border-color: var(--color-ink-800); background: var(--color-ink-900); color: var(--color-ink-300);">
+        <span class="h-1.5 w-1.5 animate-pulse rounded-full" style="background: var(--color-accent)"></span>
+        v0.1.1 · Free · MIT · Open source
+      </span>
+
+      <h1 class="mt-6 font-display text-5xl font-bold leading-[1.02] tracking-tight sm:text-7xl">
+        A modern audio OSD<br />
+        <span class="inline-block bg-clip-text text-transparent" style="background-image: linear-gradient(120deg, #4ad695 0%, #7dd66b 100%)">
+          Windows deserved.
+        </span>
+      </h1>
+
+      <p class="mx-auto mt-6 max-w-2xl text-lg sm:text-xl" style="color: var(--color-ink-300)">
+        Replace the aging volume flyout with a quiet, rounded card that surfaces
+        Voicemeeter bus levels, the default audio endpoint, and now-playing
+        media — over fullscreen games included.
+      </p>
+
+      <div class="mt-8 flex flex-wrap items-center justify-center gap-3">
+        <a href="#download" class="btn-primary">
+          Download for Windows
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+            <polyline points="7 10 12 15 17 10"/>
+            <line x1="12" y1="15" x2="12" y2="3"/>
+          </svg>
+        </a>
+        <a href="https://github.com/berkeerdo/Plith" class="btn-secondary" rel="noopener">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="h-4 w-4">
+            <path d="M12 .5A11.5 11.5 0 0 0 .5 12a11.5 11.5 0 0 0 7.86 10.92c.57.1.78-.25.78-.55v-1.94c-3.2.7-3.87-1.36-3.87-1.36-.52-1.32-1.27-1.67-1.27-1.67-1.03-.7.08-.69.08-.69 1.14.08 1.74 1.17 1.74 1.17 1.02 1.75 2.68 1.25 3.34.95.1-.74.4-1.25.72-1.53-2.55-.29-5.24-1.28-5.24-5.68 0-1.25.45-2.28 1.18-3.09-.12-.29-.51-1.46.11-3.05 0 0 .96-.31 3.15 1.18a10.94 10.94 0 0 1 5.74 0c2.19-1.49 3.15-1.18 3.15-1.18.62 1.59.23 2.76.11 3.05.74.81 1.18 1.84 1.18 3.09 0 4.41-2.7 5.38-5.26 5.66.41.36.78 1.06.78 2.13v3.16c0 .3.21.66.79.55A11.5 11.5 0 0 0 23.5 12 11.5 11.5 0 0 0 12 .5z"/>
+          </svg>
+          Star on GitHub
+        </a>
+      </div>
+
+      <p class="mt-6 text-xs" style="color: var(--color-ink-500)">
+        Windows 11 · Windows 10 build 22000+ also works · ~26 MB
+      </p>
+    </div>
+
+    <!-- Desktop-in-a-window: Plith OSD rendered on a mock desktop, live -->
+    <div class="mx-auto mt-20 max-w-5xl">
+      <div class="relative overflow-hidden rounded-2xl border shadow-2xl"
+           style="border-color: var(--color-ink-800); background: #000; box-shadow: 0 30px 100px -20px rgba(74,214,149,0.18), 0 20px 60px rgba(0,0,0,0.6)">
+        <div class="absolute -inset-8 -z-10 rounded-3xl opacity-50 blur-3xl"
+             style="background: radial-gradient(50% 50% at 50% 50%, rgba(74,214,149,0.25), transparent 60%)"></div>
+
+        <!-- Windows-style titlebar: label left, min/max/close icons on the right -->
+        <div class="flex items-center justify-between border-b text-xs" style="border-color: rgba(255,255,255,0.05); background: rgba(255,255,255,0.02); color: var(--color-ink-400)">
+          <div class="flex items-center pl-4 py-2.5">
+            <span class="mr-2">Windows Desktop · Live demo — try</span>
+            <kbd class="mx-0.5 rounded px-1 py-0.5 text-[10px]" style="background: var(--color-ink-800)">↑</kbd><kbd class="mx-0.5 rounded px-1 py-0.5 text-[10px]" style="background: var(--color-ink-800)">↓</kbd>
+            <span class="mx-1">volume ·</span>
+            <kbd class="mx-0.5 rounded px-1 py-0.5 text-[10px]" style="background: var(--color-ink-800)">Space</kbd>
+            <span class="mx-1">play ·</span>
+            <kbd class="mx-0.5 rounded px-1 py-0.5 text-[10px]" style="background: var(--color-ink-800)">←</kbd><kbd class="mx-0.5 rounded px-1 py-0.5 text-[10px]" style="background: var(--color-ink-800)">→</kbd>
+            <span class="ml-1">track</span>
+          </div>
+          <div class="flex items-stretch">
+            <button class="win-cap" aria-label="Minimize"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 12" fill="currentColor" class="h-2.5 w-2.5"><rect x="1" y="5.5" width="10" height="1"/></svg></button>
+            <button class="win-cap" aria-label="Maximize"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1" class="h-2.5 w-2.5"><rect x="1.5" y="1.5" width="9" height="9"/></svg></button>
+            <button class="win-cap win-cap-close" aria-label="Close"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1" class="h-2.5 w-2.5"><line x1="1.5" y1="1.5" x2="10.5" y2="10.5"/><line x1="1.5" y1="10.5" x2="10.5" y2="1.5"/></svg></button>
+          </div>
+        </div>
+
+        <div class="relative aspect-video overflow-hidden" style="background: radial-gradient(ellipse at 30% 20%, #16181a 0%, #060707 65%)">
+          <!-- Faux subtle wallpaper vignette -->
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" class="absolute inset-0 h-full w-full opacity-40" preserveAspectRatio="none">
+            <defs>
+              <radialGradient id="wg1" cx="30%" cy="30%">
+                <stop offset="0%" stop-color="#2a2d34"/>
+                <stop offset="100%" stop-color="transparent"/>
+              </radialGradient>
+              <radialGradient id="wg2" cx="75%" cy="75%">
+                <stop offset="0%" stop-color="#1c2020"/>
+                <stop offset="100%" stop-color="transparent"/>
+              </radialGradient>
+            </defs>
+            <rect width="800" height="500" fill="url(#wg1)"/>
+            <rect width="800" height="500" fill="url(#wg2)"/>
+          </svg>
+
+          <!-- Faux Win11 taskbar -->
+          <div class="absolute inset-x-0 bottom-0 flex items-center justify-between border-t px-4 py-2 backdrop-blur-md"
+               style="border-color: rgba(255,255,255,0.05); background: rgba(0,0,0,0.4)">
+            <div class="flex items-center gap-2">
+              <div class="grid h-6 w-6 grid-cols-2 gap-0.5 rounded-sm">
+                <span class="rounded-[1px]" style="background: rgba(255,255,255,0.55)"></span>
+                <span class="rounded-[1px]" style="background: rgba(255,255,255,0.55)"></span>
+                <span class="rounded-[1px]" style="background: rgba(255,255,255,0.55)"></span>
+                <span class="rounded-[1px]" style="background: rgba(255,255,255,0.55)"></span>
+              </div>
+              <div class="flex gap-1">
+                <span class="h-6 w-6 rounded-sm" style="background: rgba(255,255,255,0.08)"></span>
+                <span class="h-6 w-6 rounded-sm" style="background: rgba(255,255,255,0.08)"></span>
+                <span class="h-6 w-6 rounded-sm" style="background: rgba(255,255,255,0.08)"></span>
+              </div>
+            </div>
+            <span class="text-[10px]" style="color: rgba(255,255,255,0.55)" data-role="clock">21:47</span>
+          </div>
+
+          <!-- OSD floats bottom-center, scaled to look proportional on the mock desktop
+               (real Plith at 440px on a 1920 screen ≈ 23% wide; we mirror that here) -->
+          <div class="absolute inset-x-0 bottom-14 flex justify-center px-6">
+            <div style="transform: scale(0.72); transform-origin: bottom center">
+              <InteractiveOSD id="hero-osd" />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  @keyframes pulse-slow { 0%,100%{opacity:.3;transform:scale(1)} 50%{opacity:.5;transform:scale(1.1)} }
+  .animate-pulse-slow { animation: pulse-slow 8s ease-in-out infinite; }
+
+  /* Windows-style caption buttons (right side of window titlebar) */
+  .win-cap {
+    display: grid;
+    place-items: center;
+    width: 42px;
+    height: 34px;
+    background: transparent;
+    border: none;
+    color: rgba(255,255,255,0.6);
+    cursor: pointer;
+    transition: background 0.1s, color 0.1s;
+  }
+  .win-cap:hover      { background: rgba(255,255,255,0.06); color: white; }
+  .win-cap-close:hover { background: #c42b1c; color: white; }
+</style>
+
+<script>
+  const TRACKS = [
+    { title: "Take Your Time", artist: "Anderson .Paak" },
+    { title: "Nights",         artist: "Frank Ocean"    },
+    { title: "Alone in Kyoto", artist: "Air"            },
+    { title: "Lush Life",      artist: "Zara Larsson"   },
+    { title: "Redbone",        artist: "Childish Gambino" },
+  ];
+
+  const osd = document.getElementById("hero-osd");
+  if (osd) {
+    let volume = 62;
+    let playing = true;
+    let trackIdx = 0;
+
+    const $ = (r: string) => osd.querySelector(`[data-role="${r}"]`) as HTMLElement | null;
+
+    const applyVolume = () => {
+      volume = Math.max(0, Math.min(100, volume));
+      const fill  = $("vol-fill");
+      const value = $("vol-value");
+      if (fill) {
+        fill.style.width = `${volume}%`;
+        let color = "#4ad695";              // accent green
+        let glow  = "rgba(74,214,149,0.55)";
+        if (volume >= 90)      { color = "#e54b4b"; glow = "rgba(229,75,75,0.55)"; }
+        else if (volume >= 70) { color = "#f5c242"; glow = "rgba(245,194,66,0.55)"; }
+        fill.style.background = color;
+        fill.style.boxShadow  = `0 0 8px ${glow}`;
+      }
+      if (value) value.textContent = `${Math.round(volume)}%`;
+    };
+
+    const applyPlaying = () => {
+      const play  = $("play-icon");
+      const pause = $("pause-icon");
+      if (play && pause) {
+        play.classList.toggle("hidden", playing);
+        pause.classList.toggle("hidden", !playing);
+      }
+    };
+
+    const applyTrack = () => {
+      const t = TRACKS[trackIdx];
+      const title  = $("title");
+      const artist = $("artist");
+      if (title)  title.textContent  = t.title;
+      if (artist) artist.textContent = t.artist;
+    };
+
+    const inView = () => {
+      const r = osd.getBoundingClientRect();
+      return r.top < window.innerHeight && r.bottom > 0;
+    };
+
+    window.addEventListener("keydown", (e) => {
+      if (!inView()) return;
+      const tag = (document.activeElement?.tagName || "").toLowerCase();
+      if (tag === "input" || tag === "select" || tag === "textarea") return;
+
+      switch (e.key) {
+        case "ArrowUp":    volume += 5; e.preventDefault(); applyVolume(); break;
+        case "ArrowDown":  volume -= 5; e.preventDefault(); applyVolume(); break;
+        case " ":          playing = !playing; e.preventDefault(); applyPlaying(); break;
+        case "ArrowRight": trackIdx = (trackIdx + 1) % TRACKS.length; e.preventDefault(); applyTrack(); break;
+        case "ArrowLeft":  trackIdx = (trackIdx - 1 + TRACKS.length) % TRACKS.length; e.preventDefault(); applyTrack(); break;
+      }
+    });
+
+    osd.querySelectorAll<HTMLButtonElement>("[data-action]").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const a = btn.dataset.action;
+        if (a === "playpause") { playing = !playing;                          applyPlaying(); }
+        if (a === "next")      { trackIdx = (trackIdx + 1) % TRACKS.length;   applyTrack();   }
+        if (a === "prev")      { trackIdx = (trackIdx - 1 + TRACKS.length) % TRACKS.length; applyTrack(); }
+      });
+    });
+
+    const clock = document.querySelector<HTMLElement>('[data-role="clock"]');
+    if (clock) {
+      const tick = () => {
+        const d = new Date();
+        clock.textContent = `${String(d.getHours()).padStart(2,"0")}:${String(d.getMinutes()).padStart(2,"0")}`;
+      };
+      tick();
+      setInterval(tick, 30_000);
+    }
+  }
+</script>

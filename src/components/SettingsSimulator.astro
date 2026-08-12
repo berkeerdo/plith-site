@@ -1,0 +1,622 @@
+---
+import InteractiveOSD from "./InteractiveOSD.astro";
+---
+
+<section id="simulator" class="border-t py-24 sm:py-32" style="border-color: var(--color-ink-800)">
+  <div class="container-narrow">
+    <div class="mx-auto max-w-2xl text-center">
+      <span class="inline-flex items-center gap-2 rounded-full border px-3 py-1 text-xs font-medium"
+            style="border-color: var(--color-ink-800); background: var(--color-ink-900); color: var(--color-ink-300)">
+        <span class="h-1.5 w-1.5 rounded-full" style="background: var(--color-accent)"></span>
+        Live simulator
+      </span>
+      <h2 class="mt-4 font-display text-3xl font-bold sm:text-5xl">
+        The real Settings window,<br />
+        <span style="color: var(--color-accent)">right in your browser.</span>
+      </h2>
+      <p class="mt-4" style="color: var(--color-ink-300)">
+        Same layout Plith ships with — every knob updates the live preview on the right.
+      </p>
+    </div>
+
+    <!-- The full Plith Settings window recreation, faithful to SettingsWindow.xaml -->
+    <div class="mx-auto mt-14 max-w-6xl overflow-hidden rounded-xl border shadow-2xl"
+         style="border-color: var(--color-ink-700); background: var(--color-ink-950)">
+
+      <!-- Custom titlebar (44px in real app) -->
+      <div class="flex items-center justify-between border-b" style="border-color: var(--color-ink-800); background: var(--color-ink-925); height: 44px">
+        <div class="flex items-center gap-2.5 pl-[18px]">
+          <span class="h-1.5 w-1.5 rounded-full" style="background: var(--color-accent)"></span>
+          <span class="text-[13px] font-semibold">Plith</span>
+          <span style="color: var(--color-ink-400)">·</span>
+          <span class="text-[13px]" style="color: var(--color-ink-300)">Settings</span>
+        </div>
+        <div class="flex items-stretch">
+          <button class="cap-btn" aria-label="Minimize"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 12" fill="currentColor" class="h-3 w-3"><rect x="1" y="5.5" width="10" height="1"/></svg></button>
+          <button class="cap-btn" aria-label="Maximize"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1" class="h-3 w-3"><rect x="1.5" y="1.5" width="9" height="9"/></svg></button>
+          <button class="cap-btn cap-close" aria-label="Close"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1" class="h-3 w-3"><line x1="1.5" y1="1.5" x2="10.5" y2="10.5"/><line x1="1.5" y1="10.5" x2="10.5" y2="1.5"/></svg></button>
+        </div>
+      </div>
+
+      <!-- Header banner: title + subtitle -->
+      <div class="border-b px-8 pb-5 pt-3" style="border-color: var(--color-ink-800); background: var(--color-ink-925)">
+        <h3 class="font-display text-[26px] font-semibold leading-tight" style="color: var(--color-ink-100)">Settings</h3>
+        <p class="mt-1 text-[13px]" style="color: var(--color-ink-300)">
+          Tune how Plith surfaces audio and media changes on this PC.
+        </p>
+      </div>
+
+      <!-- Body: scrollable settings list (LEFT) + fixed preview (RIGHT) -->
+      <div class="grid" style="grid-template-columns: minmax(0, 470px) 1px 1fr;">
+        <!-- LEFT: sections + cards — matches real 700px window internal scroll -->
+        <div class="max-h-[520px] overflow-y-auto px-8 py-6 sim-scroll">
+
+          <!-- APPEARANCE -->
+          <div class="sec-header">Appearance</div>
+          <div class="sim-card">
+            <div class="sim-row last">
+              <div class="sim-row-text">
+                <div class="row-label">Theme</div>
+                <div class="row-hint">Dark and Light affect this Settings window. Auto follows your Windows app theme live. The OSD overlay stays dark in every mode for readability over games.</div>
+              </div>
+              <select class="modern-combo w-[110px]"><option>Auto</option><option>Dark</option><option>Light</option></select>
+            </div>
+          </div>
+
+          <!-- ON-SCREEN DISPLAY -->
+          <div class="sec-header">On-screen display</div>
+          <div class="sim-card">
+            <div class="sim-row">
+              <div class="sim-row-text">
+                <div class="row-label">Show duration</div>
+                <div class="row-hint">How long the OSD stays visible after the last change.</div>
+                <input type="range" min="500" max="10000" step="100" value="2000" class="modern-slider mt-3.5" data-setting="duration" />
+              </div>
+              <div class="value-tag" data-value="duration"><span class="num">2000</span> <span class="unit">ms</span></div>
+            </div>
+            <div class="sim-row">
+              <div class="sim-row-text">
+                <div class="row-label">Position</div>
+                <div class="row-hint">Where the OSD anchors on the primary screen.</div>
+              </div>
+              <select class="modern-combo" data-setting="position">
+                <option value="bottom-center" selected>Bottom center</option>
+                <option value="bottom-right">Bottom right</option>
+                <option value="top-center">Top center</option>
+                <option value="top-right">Top right</option>
+              </select>
+            </div>
+            <div class="sim-row">
+              <div class="sim-row-text">
+                <div class="row-label">Hover keep-alive</div>
+                <div class="row-hint">Pause the auto-hide timer while the mouse is over the OSD.</div>
+              </div>
+              <label class="modern-toggle"><input type="checkbox" checked data-setting="hoverKeepAlive" /><span></span></label>
+            </div>
+            <div class="sim-row">
+              <div class="sim-row-text">
+                <div class="row-label">Opacity</div>
+                <div class="row-hint">OSD card opacity at rest. 50 % is the minimum readable level.</div>
+                <input type="range" min="50" max="100" step="1" value="100" class="modern-slider mt-3.5" data-setting="opacity" />
+              </div>
+              <div class="value-tag" data-value="opacity"><span class="num">100</span> <span class="unit">%</span></div>
+            </div>
+            <div class="sim-row">
+              <div class="sim-row-text">
+                <div class="row-label">Color thresholds</div>
+                <div class="row-hint">Volume bar turns amber near the top, red into the loud zone. Off keeps a calm constant green.</div>
+              </div>
+              <label class="modern-toggle"><input type="checkbox" checked data-setting="colorThresholds" /><span></span></label>
+            </div>
+            <div class="sim-row">
+              <div class="sim-row-text">
+                <div class="row-label">Compact mode</div>
+                <div class="row-hint">Hide the media card so the OSD only shows the volume bar.</div>
+              </div>
+              <label class="modern-toggle"><input type="checkbox" data-setting="compact" /><span></span></label>
+            </div>
+            <div class="sim-row last">
+              <div class="sim-row-text">
+                <div class="row-label">Summon hotkey</div>
+                <div class="row-hint">System-wide shortcut that pops the OSD with the current values. Choose a combo your other apps don't use.</div>
+              </div>
+              <button class="hotkey-capture">Not set</button>
+            </div>
+          </div>
+
+          <!-- AUDIO SOURCE -->
+          <div class="sec-header">Audio source</div>
+          <div class="sim-card">
+            <div class="sim-row">
+              <div class="sim-row-text">
+                <div class="row-label">Audio source</div>
+                <div class="row-hint">Auto prefers Voicemeeter when it's running and falls back to the Windows default endpoint.</div>
+              </div>
+              <select class="modern-combo"><option>Auto</option><option>ForceVoicemeeter</option><option>ForceWindows</option></select>
+            </div>
+            <div class="sim-row">
+              <div class="sim-row-text">
+                <div class="row-label">Windows endpoint</div>
+                <div class="row-hint">Which render device the OSD tracks. Default follows Windows; pick a Sonar channel to lock onto it.</div>
+              </div>
+              <select class="modern-combo max-w-[220px] truncate">
+                <option>Default</option>
+                <option>SteelSeries Sonar - Chat</option>
+                <option>SteelSeries Sonar - Game</option>
+                <option>SteelSeries Sonar - Media</option>
+                <option>Wave Link - Mix</option>
+                <option>Rode Unify - Submix A</option>
+              </select>
+            </div>
+            <div class="sim-row last">
+              <div class="sim-row-text">
+                <div class="row-label">Monitored Voicemeeter bus</div>
+                <div class="row-hint">Which bus drives the OSD when Voicemeeter is the active source. A1 is the default route the volume keys land on.</div>
+              </div>
+              <select class="modern-combo"><option>BUS A1</option><option>BUS A2</option><option>BUS A3</option><option>BUS B1</option><option>BUS B2</option></select>
+            </div>
+          </div>
+
+          <!-- MEDIA -->
+          <div class="sec-header">Media</div>
+          <div class="sim-card">
+            <div class="sim-row last">
+              <div class="sim-row-text">
+                <div class="row-label">Show on track change</div>
+                <div class="row-hint">Off by default. When on, the OSD pops every time the current player advances or toggles play/pause.</div>
+              </div>
+              <label class="modern-toggle"><input type="checkbox" /><span></span></label>
+            </div>
+          </div>
+
+          <!-- GENERAL -->
+          <div class="sec-header">General</div>
+          <div class="sim-card">
+            <div class="sim-row last">
+              <div class="sim-row-text">
+                <div class="row-label">Launch at Windows login</div>
+                <div class="row-hint">Adds a per-user registry entry so Plith starts automatically.</div>
+              </div>
+              <label class="modern-toggle"><input type="checkbox" checked /><span></span></label>
+            </div>
+          </div>
+
+          <!-- GAME MODE (status card — dot on left, text spans right) -->
+          <div class="sec-header">Game mode</div>
+          <div class="sim-card">
+            <div class="sim-row-gamemode">
+              <span class="game-dot"></span>
+              <div>
+                <div class="row-label" style="color: var(--color-accent)">Game mode: Active</div>
+                <div class="row-hint">The OSD uses CreateWindowInBand + UIAccess to draw above exclusive fullscreen games. Also used by MSI Afterburner and RTSS.</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="h-4"></div>
+        </div>
+
+        <!-- Vertical divider -->
+        <div class="w-px" style="background: var(--color-ink-800); margin: 24px 0"></div>
+
+        <!-- RIGHT: live preview column (mirrors SettingsPreview.xaml) -->
+        <div class="p-6 max-h-[520px] overflow-hidden" style="background: var(--color-ink-950)">
+          <div class="sec-header !mb-1">Live preview</div>
+          <p class="mb-4 text-[11px]" style="color: var(--color-ink-400)">The card below reflects your settings in real time.</p>
+
+          <div class="preview-surface" id="preview-stage">
+            <!-- Position dots in the corners -->
+            <span class="pos-dot" data-pos="top-center"    style="top: 14px; left: 50%; transform: translateX(-50%)"></span>
+            <span class="pos-dot" data-pos="top-right"     style="top: 14px; right: 14px"></span>
+            <span class="pos-dot" data-pos="bottom-center" style="bottom: 14px; left: 50%; transform: translateX(-50%)"></span>
+            <span class="pos-dot" data-pos="bottom-right"  style="bottom: 14px; right: 14px"></span>
+
+            <!-- Volume nudge -->
+            <div class="absolute right-3 top-3 z-20 flex gap-1">
+              <button class="preview-btn" data-nudge="up" aria-label="Volume up"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" class="h-3 w-3"><polyline points="18 15 12 9 6 15"/></svg></button>
+              <button class="preview-btn" data-nudge="down" aria-label="Volume down"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" class="h-3 w-3"><polyline points="6 9 12 15 18 9"/></svg></button>
+            </div>
+
+            <div id="preview-anchor" data-pos="bottom-center">
+              <div id="preview-wrap">
+                <InteractiveOSD id="preview-osd" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sticky footer: "All settings saved" + Esc close -->
+      <div class="flex items-center justify-between border-t px-8 py-4" style="border-color: var(--color-ink-800); background: var(--color-ink-925)">
+        <div class="flex items-center gap-2 opacity-70">
+          <span class="h-1.5 w-1.5 rounded-full" style="background: var(--color-accent)"></span>
+          <span class="text-[11px]" style="color: var(--color-ink-400)">All settings saved</span>
+        </div>
+        <div class="flex items-center gap-2">
+          <kbd class="rounded border px-1.5 py-0.5 text-[10px]" style="background: var(--color-ink-900); border-color: var(--color-ink-700); color: var(--color-ink-300)">Esc</kbd>
+          <span class="text-[11px]" style="color: var(--color-ink-400)">close</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .sec-header {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--color-ink-400);
+    margin: 22px 0 10px 4px;
+  }
+  .sec-header:first-child { margin-top: 0; }
+
+  .sim-card {
+    border: 1px solid var(--color-ink-800);
+    border-radius: 12px;
+    background: var(--color-ink-900);
+    overflow: hidden;
+  }
+
+  .sim-row {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: start;
+    gap: 24px;
+    padding: 18px 22px;
+    border-bottom: 1px solid var(--color-ink-800);
+  }
+  .sim-row.last { border-bottom: none; }
+  .sim-row-text { min-width: 0; }
+
+  /* Game mode row: dot + text (no right control), matches XAML layout */
+  .sim-row-gamemode {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 18px 22px;
+  }
+  .game-dot {
+    width: 8px; height: 8px;
+    border-radius: 999px;
+    background: var(--color-accent);
+    margin-top: 6px;
+    flex-shrink: 0;
+    box-shadow: 0 0 8px rgba(74,214,149,0.5);
+  }
+
+  .row-label {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--color-ink-100);
+    line-height: 1.3;
+  }
+  .row-hint {
+    font-size: 12px;
+    color: var(--color-ink-300);
+    line-height: 1.5;
+    margin-top: 4px;
+    max-width: 42ch;
+  }
+
+  /* Modern combo */
+  .modern-combo {
+    background: var(--color-ink-850);
+    border: 1px solid var(--color-ink-700);
+    border-radius: 8px;
+    color: var(--color-ink-100);
+    font-size: 13px;
+    padding: 8px 34px 8px 12px;
+    outline: none;
+    cursor: pointer;
+    min-height: 34px;
+    appearance: none;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23a1a1aa' stroke-width='2' stroke-linecap='round'><polyline points='6 9 12 15 18 9'/></svg>");
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    background-size: 14px;
+    transition: border-color 0.12s;
+  }
+  .modern-combo:hover { border-color: var(--color-ink-600); }
+  .modern-combo:focus { border-color: var(--color-accent); }
+
+  /* Modern slider (matches ModernSliderStyle vibe) */
+  .modern-slider {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 100%;
+    background: transparent;
+    height: 20px;
+    cursor: pointer;
+  }
+  .modern-slider { --pct: 50%; }
+  .modern-slider::-webkit-slider-runnable-track {
+    height: 4px;
+    border-radius: 2px;
+    background: linear-gradient(
+      to right,
+      var(--color-accent) 0,
+      var(--color-accent) var(--pct),
+      var(--color-ink-700) var(--pct),
+      var(--color-ink-700) 100%
+    );
+  }
+  .modern-slider::-moz-range-track {
+    height: 4px;
+    border-radius: 2px;
+    background: linear-gradient(
+      to right,
+      var(--color-accent) 0,
+      var(--color-accent) var(--pct),
+      var(--color-ink-700) var(--pct),
+      var(--color-ink-700) 100%
+    );
+  }
+  .modern-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    height: 14px; width: 14px;
+    border-radius: 999px;
+    background: var(--color-ink-100);
+    margin-top: -5px;
+    cursor: grab;
+    box-shadow: 0 0 0 3px var(--color-ink-950), 0 0 0 4px var(--color-accent);
+  }
+  .modern-slider::-webkit-slider-thumb:active { cursor: grabbing; }
+
+  /* Value tag (right-aligned "2000 ms") */
+  .value-tag {
+    font-size: 13px;
+    color: var(--color-ink-100);
+    font-variant-numeric: tabular-nums;
+    text-align: right;
+    padding-top: 2px;
+    min-width: 68px;
+  }
+  .value-tag .num  { font-weight: 600; }
+  .value-tag .unit { color: var(--color-ink-300); }
+
+  /* Modern toggle switch */
+  .modern-toggle {
+    position: relative;
+    display: inline-block;
+    width: 40px; height: 22px;
+    flex-shrink: 0;
+  }
+  .modern-toggle input { opacity: 0; width: 0; height: 0; }
+  .modern-toggle span {
+    position: absolute; inset: 0;
+    background: var(--color-ink-700);
+    border-radius: 999px;
+    cursor: pointer;
+    transition: background 0.15s;
+  }
+  .modern-toggle span::before {
+    content: "";
+    position: absolute; top: 3px; left: 3px;
+    width: 16px; height: 16px;
+    border-radius: 999px;
+    background: var(--color-ink-500);
+    transition: transform 0.2s cubic-bezier(0.4,0,0.2,1), background 0.15s;
+  }
+  .modern-toggle input:checked + span { background: rgba(74,214,149,0.25); }
+  .modern-toggle input:checked + span::before {
+    transform: translateX(18px);
+    background: var(--color-accent);
+  }
+
+  /* Hotkey capture button */
+  .hotkey-capture {
+    background: var(--color-ink-850);
+    border: 1px solid var(--color-ink-700);
+    border-radius: 8px;
+    color: var(--color-ink-300);
+    font-size: 12px;
+    padding: 8px 14px;
+    min-height: 34px;
+    min-width: 92px;
+    cursor: pointer;
+    transition: border-color 0.12s, color 0.12s;
+  }
+  .hotkey-capture:hover { border-color: var(--color-accent); color: var(--color-accent); }
+
+  /* Caption buttons */
+  .cap-btn {
+    display: grid;
+    place-items: center;
+    width: 46px; height: 44px;
+    background: transparent;
+    border: none;
+    color: var(--color-ink-300);
+    cursor: pointer;
+    transition: background 0.1s, color 0.1s;
+  }
+  .cap-btn:hover  { background: var(--color-ink-800); color: var(--color-ink-100); }
+  .cap-close:hover { background: #c42b1c; color: white; }
+
+  /* Preview surface — mirrors SettingsPreview.xaml */
+  .preview-surface {
+    position: relative;
+    overflow: hidden;
+    border: 1px solid var(--color-ink-800);
+    background: #080808;
+    border-radius: 14px;
+    aspect-ratio: 16 / 10;
+    min-height: 300px;
+  }
+
+  .preview-btn {
+    display: grid;
+    place-items: center;
+    width: 24px; height: 24px;
+    border-radius: 6px;
+    background: rgba(23,23,23,0.75);
+    border: 1px solid rgba(255,255,255,0.08);
+    color: var(--color-ink-300);
+    cursor: pointer;
+    backdrop-filter: blur(6px);
+  }
+  .preview-btn:hover { color: var(--color-accent); border-color: rgba(74,214,149,0.5); }
+
+  .pos-dot {
+    position: absolute;
+    width: 5px; height: 5px;
+    border-radius: 999px;
+    background: var(--color-ink-700);
+    transition: background 0.2s, box-shadow 0.2s;
+  }
+  .pos-dot.active {
+    background: var(--color-accent);
+    box-shadow: 0 0 10px rgba(74,214,149,0.6);
+  }
+
+  /* Preview anchor positions — always full width so preview-wrap keeps its size;
+     only justify + align change to move the OSD around. */
+  #preview-anchor {
+    position: absolute;
+    display: flex;
+    padding: 18px;
+    transition: justify-content 0.4s ease, align-items 0.4s ease;
+  }
+  #preview-anchor[data-pos="bottom-center"] { inset: 0; justify-content: center;    align-items: flex-end; }
+  #preview-anchor[data-pos="bottom-right"]  { inset: 0; justify-content: flex-end;  align-items: flex-end; }
+  #preview-anchor[data-pos="top-center"]    { inset: 0; justify-content: center;    align-items: flex-start; }
+  #preview-anchor[data-pos="top-right"]     { inset: 0; justify-content: flex-end;  align-items: flex-start; }
+
+  /* Preview card — dominant enough to be the hero of the preview panel,
+     smaller than main 440 OSD but far bigger than the tiny mini card. Fixed
+     width so it stays the same size across every position variant. */
+  #preview-wrap {
+    transition: opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+                transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    width: 320px;
+    max-width: calc(100% - 20px);
+    flex-shrink: 0;
+  }
+  #preview-wrap :global(.osd-wrap) { display: block; }
+  #preview-wrap :global(.osd) {
+    width: 100%;
+    padding: 14px 16px;
+    border-radius: 12px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.55);
+  }
+  #preview-wrap :global(.osd-media) {
+    grid-template-columns: 36px 12px 1fr 8px auto;
+  }
+  #preview-wrap :global(.osd-art) {
+    width: 36px; height: 36px;
+    border-radius: 7px;
+  }
+  #preview-wrap :global(.osd-art svg) { width: 15px; height: 15px; }
+  #preview-wrap :global(.osd-title)  { font-size: 12px; }
+  #preview-wrap :global(.osd-artist) { font-size: 11px; margin-top: 2px; }
+  #preview-wrap :global(.osd-btn) {
+    width: 28px; height: 28px; border-radius: 14px;
+  }
+  #preview-wrap :global(.osd-btn.primary) {
+    width: 30px; height: 30px; border-radius: 15px; margin: 0 2px;
+  }
+  #preview-wrap :global(.osd-btn svg) { width: 12px; height: 12px; }
+  #preview-wrap :global(.osd-btn.primary svg) { width: 13px; height: 13px; }
+  #preview-wrap :global(.osd-divider) { margin: 12px 0; }
+  #preview-wrap :global(.osd-volume) { gap: 9px; }
+  #preview-wrap :global(.osd-vol-label) { font-size: 10px; }
+  #preview-wrap :global(.osd-vol-value) { font-size: 17px; }
+  #preview-wrap :global(.osd-vol-track) { height: 5px; border-radius: 2.5px; }
+  #preview-wrap :global(.osd-vol-fill)  { border-radius: 2.5px; }
+
+  /* Custom scrollbar for the settings list */
+  .sim-scroll::-webkit-scrollbar        { width: 8px; }
+  .sim-scroll::-webkit-scrollbar-track  { background: transparent; }
+  .sim-scroll::-webkit-scrollbar-thumb  { background: var(--color-ink-800); border-radius: 999px; }
+  .sim-scroll::-webkit-scrollbar-thumb:hover { background: var(--color-ink-700); }
+</style>
+
+<script>
+  type Pos = "bottom-center" | "bottom-right" | "top-center" | "top-right";
+  const state = {
+    position: "bottom-center" as Pos,
+    duration: 2000,
+    opacity: 100,
+    compact: false,
+    colorThresholds: true,
+    hoverKeepAlive: true,
+  };
+  let previewVolume = 62;
+
+  const previewOsd    = document.getElementById("preview-osd");
+  const previewWrap   = document.getElementById("preview-wrap");
+  const previewAnchor = document.getElementById("preview-anchor");
+
+  const applyPreview = () => {
+    if (!previewOsd || !previewWrap || !previewAnchor) return;
+
+    previewAnchor.dataset.pos = state.position;
+    previewWrap.style.opacity = String(state.opacity / 100);
+
+    const media   = previewOsd.querySelector<HTMLElement>('[data-role="media"]');
+    const divider = previewOsd.querySelector<HTMLElement>('[data-role="divider"]');
+    if (media)   media.style.display   = state.compact ? "none" : "";
+    if (divider) divider.style.display = state.compact ? "none" : "";
+
+    const fill  = previewOsd.querySelector<HTMLElement>('[data-role="vol-fill"]');
+    const value = previewOsd.querySelector<HTMLElement>('[data-role="vol-value"]');
+    if (fill) {
+      fill.style.width = `${previewVolume}%`;
+      let color = "#4ad695";
+      let glow  = "rgba(74,214,149,0.55)";
+      if (state.colorThresholds) {
+        if (previewVolume >= 90)      { color = "#e54b4b"; glow = "rgba(229,75,75,0.55)"; }
+        else if (previewVolume >= 70) { color = "#f5c242"; glow = "rgba(245,194,66,0.55)"; }
+      }
+      fill.style.background = color;
+      fill.style.boxShadow  = `0 0 8px ${glow}`;
+    }
+    if (value) value.textContent = `${previewVolume}%`;
+
+    document.querySelectorAll<HTMLElement>(".pos-dot").forEach((d) => {
+      d.classList.toggle("active", d.dataset.pos === state.position);
+    });
+  };
+
+  // Paint the fill on slider tracks like Plith's ModernSliderStyle (accent up to thumb).
+  const paintSlider = (el: HTMLInputElement) => {
+    const min = Number(el.min || 0);
+    const max = Number(el.max || 100);
+    const val = Number(el.value);
+    const pct = max === min ? 0 : ((val - min) / (max - min)) * 100;
+    el.style.setProperty("--pct", `${pct}%`);
+  };
+  document.querySelectorAll<HTMLInputElement>(".modern-slider").forEach(paintSlider);
+
+  document.querySelectorAll<HTMLInputElement | HTMLSelectElement>("[data-setting]").forEach((el) => {
+    el.addEventListener("input", () => {
+      const key = el.dataset.setting as keyof typeof state;
+      let raw: any = (el as HTMLInputElement).value;
+      if (el instanceof HTMLInputElement && el.type === "checkbox") raw = el.checked;
+      else if (key === "duration" || key === "opacity") raw = Number(raw);
+      (state as any)[key] = raw;
+
+      if (el instanceof HTMLInputElement && el.type === "range") paintSlider(el);
+
+      if (key === "duration") {
+        const tag = document.querySelector<HTMLElement>('[data-value="duration"] .num');
+        if (tag) tag.textContent = String(state.duration);
+      }
+      if (key === "opacity") {
+        const tag = document.querySelector<HTMLElement>('[data-value="opacity"] .num');
+        if (tag) tag.textContent = String(state.opacity);
+      }
+      applyPreview();
+    });
+  });
+
+  document.querySelectorAll<HTMLButtonElement>("[data-nudge]").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      previewVolume = Math.max(0, Math.min(100, previewVolume + (btn.dataset.nudge === "up" ? 8 : -8)));
+      applyPreview();
+    });
+  });
+
+  applyPreview();
+</script>

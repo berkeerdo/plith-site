@@ -1,0 +1,66 @@
+---
+const version = "0.1.1";
+const releaseUrl = `https://github.com/berkeerdo/Plith/releases/tag/v${version}`;
+const installerUrl = `https://github.com/berkeerdo/Plith/releases/download/v${version}/Plith-Setup-${version}.exe`;
+---
+
+<section id="download" class="border-t border-neutral-900 py-24 sm:py-32">
+  <div class="container-narrow">
+    <div class="mx-auto max-w-3xl text-center">
+      <h2 class="font-display text-3xl font-bold sm:text-4xl">Download Plith</h2>
+      <p class="mt-4 text-neutral-400">
+        Free forever. Open source under the MIT license.
+      </p>
+
+      <div class="mt-10 flex flex-col items-center gap-4">
+        <a
+          href={installerUrl}
+          class="btn-primary text-base"
+          style="padding: 1rem 2rem"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-5 w-5">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+            <polyline points="7 10 12 15 17 10" />
+            <line x1="12" y1="15" x2="12" y2="3" />
+          </svg>
+          Plith Setup {version} for Windows
+        </a>
+        <a
+          href={releaseUrl}
+          class="text-sm text-neutral-400 underline decoration-neutral-700 underline-offset-4 hover:text-white"
+          rel="noopener"
+        >
+          View release notes on GitHub →
+        </a>
+      </div>
+
+      <div class="mt-14 grid gap-4 text-left sm:grid-cols-3">
+        <div class="rounded-2xl border border-neutral-800 bg-neutral-900/40 p-5">
+          <p class="text-xs uppercase tracking-wider text-neutral-500">System</p>
+          <p class="mt-1 font-display font-semibold">Windows 11 x64</p>
+          <p class="mt-2 text-xs text-neutral-500">Windows 10 build 22000+ also supported</p>
+        </div>
+        <div class="rounded-2xl border border-neutral-800 bg-neutral-900/40 p-5">
+          <p class="text-xs uppercase tracking-wider text-neutral-500">Size</p>
+          <p class="mt-1 font-display font-semibold">~26 MB</p>
+          <p class="mt-2 text-xs text-neutral-500">Framework-dependent (needs .NET 10)</p>
+        </div>
+        <div class="rounded-2xl border border-neutral-800 bg-neutral-900/40 p-5">
+          <p class="text-xs uppercase tracking-wider text-neutral-500">Signing</p>
+          <p class="mt-1 font-display font-semibold">Self-signed cert</p>
+          <p class="mt-2 text-xs text-neutral-500">Click "More info → Run anyway" on SmartScreen</p>
+        </div>
+      </div>
+
+      <div class="mt-10 rounded-2xl border border-neutral-800 bg-neutral-900/40 p-6 text-left">
+        <p class="font-display font-semibold">Prefer to build from source?</p>
+        <p class="mt-2 text-sm text-neutral-400">
+          Requires .NET 10 SDK. Full instructions in the README.
+        </p>
+        <pre class="mt-4 overflow-x-auto rounded-lg bg-neutral-950 p-4 text-xs text-neutral-300"><code>git clone https://github.com/berkeerdo/Plith.git
+cd Plith
+dotnet build src/Plith/Plith.csproj -c Release</code></pre>
+      </div>
+    </div>
+  </div>
+</section>

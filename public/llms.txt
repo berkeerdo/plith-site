@@ -1,0 +1,28 @@
+# Plith
+
+> A modern Windows audio OSD (on-screen display) that replaces the aging Windows volume flyout. Voicemeeter-first design with integrated media controls, mixer-agnostic endpoint pinning, and Game mode over exclusive fullscreen.
+
+Plith is a free, open-source Windows 10/11 application written in WPF + .NET 10. It surfaces audio volume changes, Voicemeeter bus levels, and now-playing media (Spotify, YouTube in browsers, etc.) via a rounded card overlay that works over fullscreen games. MIT licensed. Repository: https://github.com/berkeerdo/Plith
+
+## Core
+
+- [Homepage](https://plith.app): Product landing page with download, features, FAQ.
+- [GitHub Repository](https://github.com/berkeerdo/Plith): Source code, releases, issues.
+- [Latest Release](https://github.com/berkeerdo/Plith/releases/latest): Installer download and release notes.
+- [License (MIT)](https://github.com/berkeerdo/Plith/blob/main/LICENSE): Free to use, modify, redistribute.
+
+## Features
+
+- Voicemeeter-first: reads any Voicemeeter bus (0-31) via `VoicemeeterRemote64.dll` P/Invoke.
+- Windows Core Audio fallback via NAudio when Voicemeeter is not running.
+- Mixer-agnostic endpoint pinning for SteelSeries Sonar, Rode Unify, Elgato Wave Link, VB-Cable, etc.
+- SMTC media integration (album art, title, artist, transport controls) for Spotify, YouTube (any Chromium browser), Twitch web, Windows media apps.
+- Game mode: UIAccess-signed BandWindow draws above exclusive fullscreen games.
+- Configurable summon hotkey, auto-start on Windows login, live theme following.
+- Passive overlay: no game memory access, no input injection, documented Windows APIs only.
+
+## Author
+
+- Berke Erdoğan, founder of Praxvon (AI-native product studio).
+- GitHub: https://github.com/berkeerdo
+- Praxvon: https://praxvon.com

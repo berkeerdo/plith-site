@@ -1,0 +1,87 @@
+---
+import "../styles/global.css";
+
+export interface Props {
+  title?: string;
+  description?: string;
+  image?: string;
+  canonical?: string;
+}
+
+const {
+  title = "Plith — Modern Windows audio OSD with Voicemeeter and media controls",
+  description = "Replace Windows' aging volume flyout with a quiet, rounded card that surfaces Voicemeeter bus levels, the default audio endpoint, and now-playing media. Free, open source, MIT-licensed.",
+  image = "/og-image.png",
+  canonical,
+} = Astro.props;
+
+const canonicalUrl = canonical ?? new URL(Astro.url.pathname, Astro.site).toString();
+const imageUrl = new URL(image, Astro.site).toString();
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  name: "Plith",
+  applicationCategory: "MultimediaApplication",
+  operatingSystem: "Windows 10, Windows 11",
+  offers: {
+    "@type": "Offer",
+    price: "0",
+    priceCurrency: "USD",
+  },
+  description,
+  url: "https://plith.app",
+  downloadUrl: "https://github.com/berkeerdo/Plith/releases/latest",
+  softwareVersion: "0.1.1",
+  license: "https://github.com/berkeerdo/Plith/blob/main/LICENSE",
+  author: {
+    "@type": "Person",
+    name: "Berke Erdoğan",
+    url: "https://github.com/berkeerdo",
+  },
+  publisher: {
+    "@type": "Organization",
+    name: "Praxvon",
+    url: "https://praxvon.com",
+  },
+};
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="generator" content={Astro.generator} />
+
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonicalUrl} />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:image" content={imageUrl} />
+    <meta property="og:site_name" content="Plith" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={imageUrl} />
+
+    <meta name="theme-color" content="#0d0d0d" />
+
+    <link rel="icon" href="/favicon.ico" sizes="any" />
+    <link rel="icon" type="image/png" href="/logo.png" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+    <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+  </head>
+  <body>
+    <slot />
+  </body>
+</html>

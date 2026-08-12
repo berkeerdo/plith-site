@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://plith.app/sitemap-index.xml

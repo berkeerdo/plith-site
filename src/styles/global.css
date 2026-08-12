@@ -1,0 +1,96 @@
+@import url("https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap");
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Space Grotesk", "Inter", ui-sans-serif, system-ui, sans-serif;
+
+  /* Plith palette — mirrors Palette.Dark.xaml / OsdPalette.Dark.xaml. */
+  --color-ink-950: #0a0a0a;      /* WindowBg */
+  --color-ink-925: #0e0e0e;      /* HeaderBg */
+  --color-ink-900: #161616;      /* CardBg */
+  --color-ink-850: #1b1b1b;      /* CardBgHover */
+  --color-ink-800: #1f1f1f;      /* CardBorder */
+  --color-ink-700: #2a2a2a;      /* CardBorderStrong */
+  --color-ink-600: #3f3f46;
+  --color-ink-500: #52525b;      /* TextDisabled */
+  --color-ink-400: #71717a;      /* TextTertiary */
+  --color-ink-300: #a1a1aa;      /* TextSecondary */
+  --color-ink-100: #f5f5f5;      /* TextPrimary */
+
+  --color-accent: #4ad695;        /* Accent */
+  --color-accent-hover: #5be0a5;  /* AccentHover */
+  --color-accent-press: #3fbf85;  /* AccentPressed */
+  --color-accent-glow: rgba(74, 214, 149, 0.18);
+
+  --color-amber: #f5c242;         /* WarningAmber, OsdGainAmber */
+  --color-red:   #e54b4b;         /* OsdGainRed */
+
+  /* OSD-specific — mirrors OsdPalette.Dark.xaml */
+  --osd-surface-a: #f0181818;
+  --osd-surface-b: #f0111111;
+  --osd-border:    #2a2a2a;
+  --osd-highlight: rgba(255, 255, 255, 0.1);
+  --osd-track:     rgba(255, 255, 255, 0.13);
+  --osd-divider:   rgba(255, 255, 255, 0.1);
+  --osd-text-1:    #f5f5f5;
+  --osd-text-2:    #a1a1aa;
+  --osd-text-3:    #71717a;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    color-scheme: dark;
+  }
+
+  body {
+    background-color: var(--color-ink-950);
+    color: var(--color-ink-100);
+    font-family: var(--font-sans);
+  }
+
+  h1, h2, h3, h4 {
+    font-family: var(--font-display);
+    letter-spacing: -0.02em;
+  }
+
+  ::selection {
+    background: var(--color-accent);
+    color: var(--color-ink-950);
+  }
+}
+
+@layer components {
+  .container-narrow {
+    @apply mx-auto w-full max-w-6xl px-6 sm:px-8;
+  }
+
+  .btn-primary {
+    @apply inline-flex items-center gap-2 rounded-lg px-5 py-2.5 text-sm font-semibold transition-all;
+    background-color: var(--color-accent);
+    color: var(--color-ink-950);
+    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.2), 0 8px 24px -8px var(--color-accent-glow);
+  }
+  .btn-primary:hover {
+    background-color: var(--color-accent-hover);
+    transform: translateY(-1px);
+  }
+  .btn-primary:active {
+    background-color: var(--color-accent-press);
+    transform: translateY(0);
+  }
+
+  .btn-secondary {
+    @apply inline-flex items-center gap-2 rounded-lg border px-5 py-2.5 text-sm font-semibold transition-colors;
+    border-color: var(--color-ink-700);
+    color: var(--color-ink-100);
+    background-color: var(--color-ink-900);
+  }
+  .btn-secondary:hover {
+    border-color: var(--color-accent);
+    color: var(--color-accent);
+  }
+}

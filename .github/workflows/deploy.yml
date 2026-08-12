@@ -14,16 +14,22 @@ concurrency:
   group: deploy-plith-app
   cancel-in-progress: false
 
+# Least-privilege token — this workflow reads code and deploys; it doesn't
+# write anything back to GitHub.
+permissions:
+  contents: read
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
     timeout-minutes: 8
     steps:
+      # SHA-pinned to guard against a compromised or moved tag on the action.
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262   # v4
 
       - name: Set up Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
         with:
           node-version: '22'
           cache: 'npm'
@@ -37,18 +43,29 @@ jobs:
       - name: Build
         run: npm run build
 
+      # Secrets pass through env instead of being spliced into the shell
+      # script — avoids GitHub Actions template-injection surface.
       - name: Prepare SSH
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+          SSH_HOST: ${{ secrets.SSH_HOST }}
         run: |
           mkdir -p ~/.ssh
-          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/deploy_key
+          printf '%s\n' "$SSH_PRIVATE_KEY" > ~/.ssh/deploy_key
           chmod 600 ~/.ssh/deploy_key
-          ssh-keyscan -H "${{ secrets.SSH_HOST }}" >> ~/.ssh/known_hosts 2>/dev/null
+          # Record the host key up front so we can enforce StrictHostKeyChecking=yes
+          # for the actual rsync call instead of blindly trusting whoever answers.
+          ssh-keyscan -H "$SSH_HOST" > ~/.ssh/known_hosts 2>/dev/null
 
       - name: Rsync dist/ to origin
+        env:
+          SSH_HOST: ${{ secrets.SSH_HOST }}
+          SSH_USER: ${{ secrets.SSH_USER }}
+          SSH_PATH: ${{ secrets.SSH_PATH }}
         run: |
           rsync -avz --delete \
-            -e "ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no" \
-            dist/ "${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:${{ secrets.SSH_PATH }}"
+            -e "ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=yes -o UserKnownHostsFile=$HOME/.ssh/known_hosts" \
+            dist/ "$SSH_USER@$SSH_HOST:$SSH_PATH"
 
       - name: Smoke test
         run: |
